@@ -8,7 +8,7 @@ use std::str::FromStr;
 /// Build a Command
 fn build_cli() -> Command {
     Command::new("qmk-layout-to-keyberon")
-        .version("0.1.2")
+        .version(env!("CARGO_PKG_VERSION"))
         .author("Boris Faure <boris@fau.re>")
         .about("Convert a QMK layout JSON file into a Keyberon layout rust file")
         .arg(
