@@ -1,9 +1,8 @@
-use clap::{value_parser, Arg, ArgAction, ArgMatches, Command};
+use clap::{value_parser, Arg, Command};
 use keyberon_layout_serde::qmk::QmkKeymap;
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
-use std::str::FromStr;
 
 /// Build a Command
 fn build_cli() -> Command {
