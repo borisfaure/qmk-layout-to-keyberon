@@ -1,4 +1,5 @@
-use clap::{value_parser, Arg, Command};
+use clap::{value_parser, Arg, ArgAction, Command};
+use keyberon_layout_serde::keyberon::Layers;
 use keyberon_layout_serde::qmk::QmkKeymap;
 use std::fs::File;
 use std::io::Read;
@@ -18,6 +19,36 @@ fn build_cli() -> Command {
                 .help("a QMK layout JSON file")
                 .value_parser(value_parser!(PathBuf)),
         )
+        .arg(
+            Arg::new("cols")
+                .value_name("COLS")
+                .short('c')
+                .long("cols")
+                .num_args(1)
+                .required(true)
+                .help("number of cols in the layout")
+                .value_parser(value_parser!(u8)),
+        )
+        .arg(
+            Arg::new("rows")
+                .value_name("ROWS")
+                .short('r')
+                .long("rows")
+                .num_args(1)
+                .required(true)
+                .help("number of rows in the layout")
+                .value_parser(value_parser!(u8)),
+        )
+        .arg(
+            Arg::new("is_split")
+                .value_name("IS_SPLIT")
+                .short('s')
+                .long("is-split")
+                .action(ArgAction::SetTrue)
+                .num_args(0)
+                .required(false)
+                .help("whether the layout is split"),
+        )
 }
 
 fn main() {
@@ -30,7 +61,20 @@ fn main() {
         .unwrap()
         .read_to_string(&mut s)
         .unwrap();
-    let res = QmkKeymap::from_json_str(&s);
-    let keymap = res.unwrap();
-    println!("{:?}", keymap);
+    let keymap_res = QmkKeymap::from_json_str(&s);
+    if let Err(ref err) = keymap_res {
+        println!("{:?}", err);
+    }
+    let keymap = keymap_res.unwrap();
+
+    let cols = matches.get_one::<u8>("cols").unwrap();
+    let rows = matches.get_one::<u8>("rows").unwrap();
+    let is_split = matches.get_flag("is_split");
+
+    let layers_res = Layers::try_from(keymap, *cols as usize, *rows as usize, is_split);
+    if let Err(ref err) = layers_res {
+        println!("{:?}", err);
+    }
+    let layers = layers_res.unwrap();
+    println!("{:?}", layers);
 }
