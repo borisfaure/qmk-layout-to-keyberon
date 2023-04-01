@@ -49,6 +49,16 @@ fn build_cli() -> Command {
                 .required(false)
                 .help("whether the layout is split"),
         )
+        .arg(
+            Arg::new("ignore_errors")
+                .value_name("IGNORE_ERRORS")
+                .short('i')
+                .long("ignore-errors")
+                .action(ArgAction::SetTrue)
+                .num_args(0)
+                .required(false)
+                .help("whether to ignore conversion errors"),
+        )
 }
 
 fn main() {
@@ -70,8 +80,15 @@ fn main() {
     let cols = matches.get_one::<u8>("cols").unwrap();
     let rows = matches.get_one::<u8>("rows").unwrap();
     let is_split = matches.get_flag("is_split");
+    let ignore_errors = matches.get_flag("ignore_errors");
 
-    let layers_res = Layers::try_from(keymap, *cols as usize, *rows as usize, is_split);
+    let layers_res = Layers::try_from(
+        keymap,
+        *cols as usize,
+        *rows as usize,
+        is_split,
+        ignore_errors,
+    );
     if let Err(ref err) = layers_res {
         println!("{:?}", err);
     }
