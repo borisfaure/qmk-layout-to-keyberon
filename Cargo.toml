@@ -2,8 +2,12 @@
 name = "qmk-layout-to-keyberon"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = ["Boris Faure <boris@fau.re>"]
+license = "BSD-2-Clause"
+keywords = ["keyberon", "qmk", "serde", "convertion"]
+readme = "README.md"
+description = "Translate QMK layout into keyberon layout"
+repository = "https://github.com/borisfaure/qmk-layout-to-keyberon"
 
 [dependencies]
 clap = "4.1"
