@@ -11,6 +11,6 @@ repository = "https://github.com/borisfaure/qmk-layout-to-keyberon"
 
 [dependencies]
 clap = "4.1"
-keyberon-layout-serde = { path = "../keyberon-layout-serde" }
+keyberon-layout-serde = { git = "https://github.com/borisfaure/keyberon-layout-serde", branch = "main"}
 log = "0.4"
 lovely_env_logger = "0.6"
