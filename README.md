@@ -1,3 +1,5 @@
+https://github.com/borisfaure/qmk-layout-to-keyberon/actions/workflows/ci.yml/badge.svg)
+
 ## Description
 Tool to convert a [QMK layout](https://config.qmk.fm/) into a [keyberon layout](https://github.com/TeXitoi/keyberon).
 ## Usage
