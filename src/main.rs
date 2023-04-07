@@ -1,6 +1,6 @@
 use clap::{value_parser, Arg, ArgAction, Command};
 use keyberon_layout_serde::keyberon::Layers;
-use keyberon_layout_serde::qmk::QmkKeymap;
+use keyberon_layout_serde::qmk::QmkKeyMap;
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
@@ -71,11 +71,11 @@ fn main() {
         .unwrap()
         .read_to_string(&mut s)
         .unwrap();
-    let keymap_res = QmkKeymap::from_json_str(&s);
-    if let Err(ref err) = keymap_res {
+    let key_map_res = QmkKeyMap::from_json_str(&s);
+    if let Err(ref err) = key_map_res {
         println!("{:?}", err);
     }
-    let keymap = keymap_res.unwrap();
+    let key_map = key_map_res.unwrap();
 
     let cols = matches.get_one::<u8>("cols").unwrap();
     let rows = matches.get_one::<u8>("rows").unwrap();
@@ -83,7 +83,7 @@ fn main() {
     let ignore_errors = matches.get_flag("ignore_errors");
 
     let layers_res = Layers::try_from(
-        keymap,
+        key_map,
         *cols as usize,
         *rows as usize,
         is_split,
